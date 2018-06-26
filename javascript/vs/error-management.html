@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>Template</title>
+</head>
+
+<body>
+</body>
+
+<script>
+// Intro to error management
+/*
+    class DevcampError extends Error {
+        constructor(msg = 'An error occured', ...params) {
+            super(...params);
+
+            this.msg = msg;
+        }
+    }
+
+    function siteComponent(func) {
+        return func();
+    }
+
+    try {
+        console.log(siteComponent("oops"));
+    }
+    catch (e) {
+        throw new DevcampError("DevcampError", e);
+    }
+
+    widget = () => {
+        return "<div>Hi there</div>";
+    };
+*/
+
+// API and error management
+class ApiError extends Error {
+  constructor(msg = 'An api error occured', ...params) {
+    super(...params);
+    
+    this.msg = msg;
+  }
+}
+
+
+var request = new XMLHttpRequest();
+
+request.open("GET", "https://api.dailysmarty.com/oops", true);
+
+request.onload = function() {
+  if (request.status >= 200 && request.status < 400) {
+    var data = JSON.parse(request.responseText);
+    console.log(data);
+  } else {
+    throw new ApiError('ApiError', `An api error occured with a status of ${request.status}`);
+  }
+};
+
+request.send();
+</script>
+
+</html>
